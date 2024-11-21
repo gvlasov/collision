@@ -341,10 +341,10 @@ final class Writer
      */
     private function getFileRelativePath(string $filePath): string
     {
-        $cwd = (string) getcwd();
-
-        if (! empty($cwd)) {
-            return str_replace("$cwd".DIRECTORY_SEPARATOR, '', $filePath);
+        $projectLocalBasePath = realpath(base_path('..'));
+        $ideProjectRoot = config('app.ideProjectRoot') ?? '';
+        if (!empty($projectLocalBasePath)) {
+            return str_replace("$projectLocalBasePath".DIRECTORY_SEPARATOR, $ideProjectRoot.DIRECTORY_SEPARATOR, $filePath);
         }
 
         return $filePath;
